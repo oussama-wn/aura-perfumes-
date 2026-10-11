@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Parfums au meilleur prix au Maroc</title>
+  <meta name="description" content="Flacons et décantes comparés chaque jour sur six boutiques marocaines. Trouvez le prix le plus bas de votre parfum.">
+  <link rel="preload" as="image" href="assets/hero-gallery-900.jpg" media="(max-width: 767px)">
+  <link rel="preload" as="image" href="assets/hero-gallery-2000.jpg" media="(min-width: 768px)">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Bodoni Moda : didone des maisons de mode et de parfum. Geist : texte, interface et prix. -->
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Couleurs = variables CSS (mode clair / sombre selon le réglage de l'appareil)
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: 'var(--bg)', surface: 'var(--surface)', well: 'var(--well)', line: 'var(--line)', lineStrong: 'var(--line-strong)',
+            fg: 'var(--text)', muted: 'var(--muted)', accent: 'var(--accent)',
+            btn: 'var(--btn)', onBtn: 'var(--on-btn)', btnHover: 'var(--btn-hover)', danger: 'var(--danger)',
+          },
+          fontFamily: {
+            display: ['"Bodoni Moda"', 'serif'],
+            sans: ['Geist', 'system-ui', 'sans-serif'],
+          },
+          borderRadius: { tile: '6px' },
+        },
+      },
+    };
+  </script>
+  <style>
+    /* Palette "Bleu marine" : navy, bleu porcelaine, fonds bleutés. Une seule famille de couleur. */
+    :root {
+      --bg: #EEF2F7; --surface: #F8FAFD; --well: #FBFCFE; --line: #C9D2DF; --line-strong: #7F8DA3;
+      --text: #0B1A33; --muted: #42506A; --accent: #1F3A68;
+      --btn: #14284B; --on-btn: #F8FAFD; --btn-hover: #2F4B7C; --danger: #B42318;
+      --scrim: 238, 242, 247; --hero-tint: #13295A;
+      --hero-filter: contrast(1.3) brightness(0.85) url(#navy-duotone);  /* duotone navy / bleu pâle */
+      --hero-tint-opacity: 0;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0A1428; --surface: #0F1D38; --well: #E9EEF5; --line: #22324F; --line-strong: #5B6B86;
+        --text: #E8EDF5; --muted: #A3B0C6; --accent: #9DB4DD;
+        --btn: #9DB4DD; --on-btn: #0A1428; --btn-hover: #B9CBEA; --danger: #F87171;
+        --scrim: 10, 20, 40; --hero-tint: #2F4B7C;
+        --hero-filter: none;
+        --hero-tint-opacity: 1;
+      }
+    }
+    /* Teinte navy sur la photo noir et blanc : le flacon devient bleu marine, les blancs bleu pâle */
+    .hero-tint { background: var(--hero-tint); mix-blend-mode: color; opacity: var(--hero-tint-opacity); }
+    .hero-photo { filter: var(--hero-filter); }
+    /* Arrondis : 6px partout (cartes, boutons, champs). */
+    body { font-feature-settings: "tnum" 1; }  /* chiffres alignés pour les prix */
+    .hero-scrim { background: linear-gradient(90deg, rgba(var(--scrim), .96) 0%, rgba(var(--scrim), .86) 38%, rgba(var(--scrim), .2) 70%, rgba(var(--scrim), 0) 100%); }
+    .hero-fade { background: linear-gradient(0deg, var(--bg) 0%, transparent 100%); }
+    @media (max-width: 767px) {
+      .hero-scrim { background: linear-gradient(0deg, rgba(var(--scrim), .97) 0%, rgba(var(--scrim), .88) 50%, rgba(var(--scrim), .05) 100%); }
+    }
+    .toolbar { background: rgba(var(--scrim), .94); }
+    .honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+
+    /* Curseur de prix à deux poignées : deux <input type="range"> superposés */
+    .range { position: relative; height: 28px; }
+    .range-track, .range-fill { position: absolute; top: 50%; height: 2px; transform: translateY(-50%); border-radius: 2px; }
+    .range-track { left: 0; right: 0; background: var(--line-strong); opacity: .5; }
+    .range-fill { background: var(--accent); }
+    .range input { position: absolute; inset: 0; width: 100%; margin: 0; background: none; pointer-events: none; -webkit-appearance: none; appearance: none; }
+    .range input::-webkit-slider-thumb { -webkit-appearance: none; pointer-events: auto; width: 22px; height: 22px; border-radius: 50%; background: var(--surface); border: 2px solid var(--accent); cursor: grab; }
+    .range input::-moz-range-thumb { pointer-events: auto; width: 18px; height: 18px; border-radius: 50%; background: var(--surface); border: 2px solid var(--accent); cursor: grab; }
+    .range input:focus-visible::-webkit-slider-thumb { outline: 3px solid var(--accent); outline-offset: 2px; }
+    .range input:focus-visible::-moz-range-thumb { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .card-in { animation: rise 600ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: calc(var(--i, 0) * 40ms); }
+      .modal-in { animation: pop 240ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+      @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+      @keyframes pop { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    }
+  </style>
+</head>
+<body class="bg-bg text-fg font-sans antialiased">
+  <a href="#catalogue" class="sr-only focus:not-sr-only focus:absolute focus:z-30 focus:top-3 focus:left-3 bg-btn text-onBtn px-4 py-2 rounded-tile">Aller au catalogue</a>
+
+  <!-- Filtre duotone : recolore la photo noir et blanc entre navy (#0E2250) et bleu pâle (#EEF2F7) -->
+  <svg aria-hidden="true" width="0" height="0" class="absolute">
+    <filter id="navy-duotone" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values="0.1868 0.6283 0.0634 0 0.0549  0.1734 0.5834 0.0589 0 0.1333  0.1392 0.4684 0.0473 0 0.3137  0 0 0 1 0"/>
+    </filter>
+  </svg>
+
+  <!-- En-tête : photo plein cadre teintée bleu marine, voile côté texte -->
+  <header class="relative isolate overflow-hidden min-h-[80svh] md:min-h-[74dvh] flex items-end">
+    <picture>
+      <source media="(min-width: 768px)" srcset="assets/hero-gallery-2000.jpg">
+      <img src="assets/hero-gallery-900.jpg" alt="" fetchpriority="high" decoding="async"
+           class="hero-photo absolute inset-0 -z-20 h-full w-full object-cover object-[70%_30%] md:object-center">
+    </picture>
+    <div class="hero-tint absolute inset-0 -z-10"></div>
+    <div class="hero-scrim absolute inset-0 -z-10"></div>
+    <div class="hero-fade absolute inset-x-0 bottom-0 h-24 -z-10"></div>
+
+    <div class="w-full max-w-6xl mx-auto px-4 pt-24 pb-14 md:pb-24">
+      <p class="text-sm text-accent font-medium">Comparateur de parfums au Maroc</p>
+      <h1 class="font-display text-5xl md:text-6xl lg:text-7xl font-normal leading-[1.08] pb-1 mt-4 max-w-[13ch] tracking-[-0.01em]">
+        Le meilleur prix de votre <em class="italic">parfum</em>
+      </h1>
+      <p class="mt-6 text-base md:text-lg text-muted leading-relaxed max-w-[42ch]">
+        Flacons et décantes comparés chaque jour sur six boutiques marocaines. Vous payez le prix le plus bas.
+      </p>
+      <div class="mt-8 relative max-w-lg">
+        <label for="search" class="sr-only">Rechercher un parfum</label>
+        <!-- Icône Phosphor "magnifying-glass" (MIT) -->
+        <svg aria-hidden="true" class="pointer-events-none absolute z-10 left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted" viewBox="0 0 256 256" fill="currentColor"><path d="M229.66 218.34l-50.07-50.06a88.11 88.11 0 1 0-11.31 11.31l50.06 50.07a8 8 0 0 0 11.32-11.32ZM40 112a72 72 0 1 1 72 72 72.08 72.08 0 0 1-72-72Z"/></svg>
+        <input id="search" type="search" autocomplete="off" placeholder="Sauvage, Khamrah, 9pm..."
+               class="w-full min-h-14 pl-12 pr-4 rounded-tile border border-lineStrong bg-surface text-base text-fg placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-accent">
+      </div>
+    </div>
+  </header>
+
+  <!-- Barre de filtres : collée en haut sur PC (z-20, sous la fenêtre de commande z-50), normale sur mobile -->
+  <section id="catalogue" aria-label="Filtres" class="toolbar md:sticky md:top-0 z-20 border-y border-line backdrop-blur">
+    <div class="max-w-6xl mx-auto px-4 py-3 grid gap-3 md:grid-cols-[auto_auto_minmax(220px,1fr)_auto] md:items-center">
+      <div role="group" aria-label="Type de produit" class="flex gap-1 p-1 rounded-tile border border-line bg-surface w-fit">
+        <button type="button" data-type="" aria-pressed="true" class="type-filter min-h-10 px-4 rounded-[4px] text-sm font-medium cursor-pointer transition-colors">Tous</button>
+        <button type="button" data-type="flacon" aria-pressed="false" class="type-filter min-h-10 px-4 rounded-[4px] text-sm font-medium cursor-pointer transition-colors">Flacons</button>
+        <button type="button" data-type="décante" aria-pressed="false" class="type-filter min-h-10 px-4 rounded-[4px] text-sm font-medium cursor-pointer transition-colors">Décantes</button>
+      </div>
+
+      <div>
+        <label for="size" class="sr-only">Taille</label>
+        <select id="size" class="min-h-11 w-full md:w-auto pl-3 pr-8 rounded-tile border border-lineStrong bg-surface text-fg text-sm font-medium cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent">
+          <option value="">Toutes les tailles</option>
+        </select>
+      </div>
+
+      <div class="min-w-0">
+        <div class="flex items-baseline justify-between gap-3">
+          <span class="text-xs text-muted">Prix</span>
+          <output id="price-label" for="price-min price-max" class="text-sm font-medium"></output>
+        </div>
+        <div class="range">
+          <div class="range-track"></div>
+          <div class="range-fill" id="price-fill"></div>
+          <input id="price-min" type="range" step="10" aria-label="Prix minimum">
+          <input id="price-max" type="range" step="10" aria-label="Prix maximum">
+        </div>
+      </div>
+
+      <div>
+        <label for="sort" class="sr-only">Trier</label>
+        <select id="sort" class="min-h-11 w-full md:w-auto pl-3 pr-8 rounded-tile border border-lineStrong bg-surface text-fg text-sm font-medium cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent">
+          <option value="saving">Plus grosse économie</option>
+          <option value="price-asc">Prix croissant</option>
+          <option value="price-desc">Prix décroissant</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <main class="max-w-6xl mx-auto px-4 pt-8 pb-16">
+    <div class="flex items-baseline justify-between gap-4">
+      <h2 class="font-display text-3xl md:text-4xl">Le catalogue</h2>
+      <p id="count" class="text-sm text-muted" aria-live="polite"></p>
+    </div>
+    <div id="status" class="mt-8" aria-live="polite"></div>
+    <ul id="grid" class="mt-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10 md:gap-x-8 md:gap-y-14" aria-label="Parfums"></ul>
+    <div class="mt-14 text-center">
+      <button id="more" type="button" hidden
+              class="min-h-11 px-7 rounded-tile border border-fg text-fg text-sm font-semibold cursor-pointer hover:bg-btn hover:text-onBtn transition-colors active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-bg">
+        Afficher plus de parfums
+      </button>
+    </div>
+  </main>
+
+  <footer class="border-t border-line">
+    <div class="max-w-6xl mx-auto px-4 py-8 text-xs text-muted leading-relaxed space-y-2">
+      <p>Prix relevés automatiquement sur des boutiques en ligne marocaines. Ils peuvent évoluer.</p>
+      <p>Vos coordonnées servent uniquement à vous recontacter au sujet de votre demande. <a class="underline underline-offset-2 hover:text-fg" href="confidentialite.html">Politique de confidentialité</a></p>
+      <p>Photo : Kier in Sight Archives sur <a class="underline underline-offset-2 hover:text-fg" href="https://unsplash.com/photos/smVxAu_lqlo" rel="noopener">Unsplash</a></p>
+    </div>
+  </footer>
+
+  <!-- Carte produit, façon étiquette de musée (remplie par app.js en texte uniquement) -->
+  <template id="card-template">
+    <li>
+      <article class="group h-full flex flex-col">
+        <div class="aspect-[4/5] rounded-tile bg-well overflow-hidden">
+          <img class="card-img w-full h-full object-contain p-6 mix-blend-multiply motion-safe:transition-transform motion-safe:duration-700 group-hover:scale-[1.04]"
+               loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="">
+        </div>
+        <div class="flex flex-col flex-1 pt-4">
+          <h3 class="card-name font-display text-xl md:text-2xl leading-tight"></h3>
+          <div class="mt-3 pt-3 border-t border-line flex items-baseline justify-between gap-2">
+            <p class="card-type text-xs text-muted"></p>
+            <p class="card-price text-base font-semibold"></p>
+          </div>
+          <p class="card-saving text-xs text-accent font-medium mt-1 text-right" hidden></p>
+          <div class="mt-auto pt-4">
+            <button type="button" class="card-order w-full min-h-11 rounded-tile bg-btn text-onBtn text-sm font-semibold cursor-pointer hover:bg-btnHover active:scale-[0.98] motion-safe:transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-bg">
+              Commander
+            </button>
+          </div>
+        </div>
+      </article>
+    </li>
+  </template>
+
+  <!-- Fenêtre de commande -->
+  <div id="modal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="absolute inset-0 bg-[#0A1428]/60 backdrop-blur-sm" data-close></div>
+    <div class="modal-in relative mx-auto mt-4 md:mt-16 w-[calc(100%-2rem)] max-w-md max-h-[calc(100dvh-2rem)] overflow-y-auto bg-surface text-fg border border-line rounded-tile shadow-2xl">
+      <div class="flex items-start gap-4 p-5 border-b border-line">
+        <img id="modal-img" class="w-16 h-20 object-contain rounded-tile bg-well p-1 mix-blend-multiply" alt="" referrerpolicy="no-referrer">
+        <div class="flex-1 min-w-0">
+          <h2 id="modal-title" class="font-display text-2xl leading-tight"></h2>
+          <p id="modal-meta" class="text-sm text-muted mt-1"></p>
+        </div>
+        <button type="button" data-close aria-label="Fermer"
+                class="w-11 h-11 -mr-2 -mt-2 grid place-items-center rounded-tile cursor-pointer text-muted hover:text-fg hover:bg-bg focus:outline-none focus:ring-2 focus:ring-accent">
+          <!-- Icône Phosphor "x" (MIT) -->
+          <svg aria-hidden="true" class="w-5 h-5" viewBox="0 0 256 256" fill="currentColor"><path d="M205.66 194.34a8 8 0 0 1-11.32 11.32L128 139.31l-66.34 66.35a8 8 0 0 1-11.32-11.32L116.69 128 50.34 61.66a8 8 0 0 1 11.32-11.32L128 116.69l66.34-66.35a8 8 0 0 1 11.32 11.32L139.31 128Z"/></svg>
+        </button>
+      </div>
+
+      <form id="order-form" class="p-5 space-y-4" novalidate>
+        <p class="text-sm text-muted leading-relaxed">Laissez vos coordonnées pour accéder à l’offre la moins chère.</p>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="first_name" class="block text-sm font-medium mb-2">Prénom</label>
+            <input id="first_name" name="first_name" type="text" autocomplete="given-name" required maxlength="50"
+                   aria-describedby="first_name-error"
+                   class="w-full min-h-11 px-3 rounded-tile border border-lineStrong bg-bg text-fg text-base focus:outline-none focus:ring-2 focus:ring-accent">
+            <p id="first_name-error" class="field-error text-xs text-danger mt-1" hidden></p>
+          </div>
+          <div>
+            <label for="last_name" class="block text-sm font-medium mb-2">Nom</label>
+            <input id="last_name" name="last_name" type="text" autocomplete="family-name" required maxlength="50"
+                   aria-describedby="last_name-error"
+                   class="w-full min-h-11 px-3 rounded-tile border border-lineStrong bg-bg text-fg text-base focus:outline-none focus:ring-2 focus:ring-accent">
+            <p id="last_name-error" class="field-error text-xs text-danger mt-1" hidden></p>
+          </div>
+        </div>
+        <div>
+          <label for="phone" class="block text-sm font-medium mb-2">Téléphone</label>
+          <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="06 12 34 56 78"
+                 aria-describedby="phone-help phone-error"
+                 class="w-full min-h-11 px-3 rounded-tile border border-lineStrong bg-bg text-fg text-base placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-accent">
+          <p id="phone-help" class="text-xs text-muted mt-1">Numéro marocain : 05, 06, 07 ou +212.</p>
+          <p id="phone-error" class="field-error text-xs text-danger mt-1" hidden></p>
+        </div>
+        <!-- Champ piège anti-robots : invisible pour les humains -->
+        <div class="honeypot" aria-hidden="true">
+          <label for="website">Ne pas remplir</label>
+          <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+        <div>
+          <label class="flex items-start gap-3 cursor-pointer">
+            <input id="consent" name="consent" type="checkbox" required aria-describedby="consent-error"
+                   class="mt-0.5 w-5 h-5 shrink-0 cursor-pointer" style="accent-color: var(--accent)">
+            <span class="text-sm leading-relaxed">J’accepte que mes coordonnées (nom, prénom, téléphone) soient enregistrées pour être recontacté au sujet de ma commande.</span>
+          </label>
+          <p id="consent-error" class="field-error text-xs text-danger mt-1" hidden></p>
+          <p class="text-xs text-muted mt-2 pl-8">
+            <a class="underline underline-offset-2 hover:text-fg" href="confidentialite.html" target="_blank" rel="noopener">Comment nous utilisons vos données</a>
+          </p>
+        </div>
+        <p id="form-message" class="text-sm" role="status" aria-live="polite"></p>
+        <button id="submit" type="submit"
+                class="w-full min-h-12 rounded-tile bg-btn text-onBtn font-semibold cursor-pointer hover:bg-btnHover active:scale-[0.98] disabled:opacity-60 disabled:cursor-wait motion-safe:transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-surface">
+          Voir l’offre
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="logic.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
